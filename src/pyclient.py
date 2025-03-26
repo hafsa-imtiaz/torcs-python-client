@@ -58,7 +58,7 @@ while not shutdownClient:
         print('Sending init string to server:', buf)
         
         try:
-            sock.sendto(buf.encode(), (arguments.host_ip, arguments.host_port))  # Use .encode() for Python 3
+            sock.sendto(buf.encode(), (arguments.host_ip, arguments.host_port))  # .encode() for Python 3
         except socket.error as msg:
             print("Failed to send data...Exiting...")
             sys.exit(-1)
@@ -116,7 +116,7 @@ while not shutdownClient:
         
         if buf is not None:
             try:
-                sock.sendto(buf.encode(), (arguments.host_ip, arguments.host_port))  # Use .encode() for Python 3
+                sock.sendto(buf.encode(), (arguments.host_ip, arguments.host_port))  # .encode() for Python 3
             except socket.error as msg:
                 print("Failed to send data...Exiting...")
                 sys.exit(-1)

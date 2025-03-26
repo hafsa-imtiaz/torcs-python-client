@@ -1,0 +1,77 @@
+### **Stored Data in the CSV File**
+The script collects and stores **all relevant telemetry data** from the TORCS simulation. Below is a breakdown of **what is stored**:
+
+#### **1. Core Vehicle State (Single-Value Sensors)**
+| Field        | Description |
+|-------------|-------------|
+| `curLapTime` | Current lap time in seconds. |
+| `distFromStart` | Distance from the start line in meters. |
+| `distRaced` | Total distance raced in meters. |
+| `fuel` | Remaining fuel (irrelevant since we have unlimited fuel). |
+| `gear` | Current gear (e.g., 1, 2, 3, etc.). |
+| `lastLapTime` | Time taken for the last completed lap in seconds. |
+| `racePos` | Current position in the race. |
+| `rpm` | Revolutions per minute (RPM) of the engine. |
+| `speedX` | Forward speed of the car. |
+| `speedY` | Sideways speed of the car. |
+| `speedZ` | Vertical speed of the car. |
+| `trackPos` | Car's position relative to the center of the track. |
+| `angle` | Angle between the car's heading and track axis. |
+| `damage` | Car's damage level (not useful since we disabled damage). |
+| `z` | Car's altitude above the track. |
+
+---
+
+#### **2. Track Sensors (List of 19 Values)**
+| Field Format | Description |
+|-------------|-------------|
+| `track_0` to `track_18` | Distance to the track boundaries at different angles (e.g., directly ahead, slightly left, etc.). |
+
+- These sensors help the car understand its position on the track.
+
+---
+
+#### **3. Opponent Sensors (List of 36 Values)**
+| Field Format | Description |
+|-------------|-------------|
+| `opponent_0` to `opponent_35` | Distance to the nearest opponent cars in different directions. |
+
+- Since the values are `200.0`, it suggests no nearby opponents.
+
+---
+
+#### **4. Wheel Spin Velocity (List of 4 Values)**
+| Field Format | Description |
+|-------------|-------------|
+| `wheelSpin_0` to `wheelSpin_3` | Measures wheel slip/spin for each wheel. |
+
+- Can be used to detect oversteering or loss of traction.
+
+---
+
+### **Data NOT Being Stored**
+1. **Focus Sensors (`focus`)**
+   - Values are all `-1`, meaning they are disabled.
+   - They would typically track distant points on the track ahead.
+
+2. **Noisy/Damage Sensors**
+   - Damage data is stored (`damage`), but it is irrelevant because we disabled car damage.
+
+3. **Fuel Level**
+   - We store `fuel`, but it's unnecessary since fuel is unlimited.
+
+---
+
+### **Final Summary**
+✅ **Stored:**
+- Core car state (speed, position, RPM, lap times, gear, etc.).
+- Track boundary distances (19 sensors).
+- Opponent distances (36 sensors).
+- Wheel spin velocities (4 sensors).
+
+❌ **Not Stored:**
+- Focus sensors (`focus`).
+- Noise-related data (since we disabled noisy sensors).
+- Damage (irrelevant because we turned off car damage).
+
+Let me know if you want to add or remove anything!
