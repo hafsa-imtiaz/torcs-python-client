@@ -72,7 +72,7 @@ This project is part of the **Artificial Intelligence AI-2002 Spring-2025** cour
 
 1. Clone the repository:
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/hafsa-imtiaz/torcs-python-client
    ```
 2. Run the TORCS Simulator in the background.
 3. Run the pyClient.py file.
