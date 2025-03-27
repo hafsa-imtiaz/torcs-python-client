@@ -11,7 +11,7 @@ headers = [
     "Z (Altitude)" #, "Fuel", "Damage"
 ]
 
-extra_headers = [f"Wheel_#{str(i)}_Spin" for i in range(4)] # + ["Track_#" + str(i) for i in range(19)] + ["Opponent_#" + str(i) for i in range(36)]
+extra_headers = [f"Wheel_#{str(i)}_Spin" for i in range(4)] + ["Track_#" + str(i) for i in range(19)] #+ ["Opponent_#" + str(i) for i in range(36)]
 
 headers.extend(extra_headers)
 file_exists = os.path.isfile(filename)
@@ -31,8 +31,7 @@ def save_telemetry(data):
             data["z"][0] #, data["fuel"][0], data["damage"][0]
         ]
         row.extend(data["wheelSpinVel"])
-        
-        #row.extend(data["track"])
+        row.extend(data["track"])
         #row.extend(data["opponents"])
         # data not written ---> noisy sensors (focus values, opponent values (always 200 so i didnt save) and track edges values), damage, fuel
 
