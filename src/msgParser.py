@@ -1,4 +1,4 @@
-from telemetry import save_telemetry
+# parser that will build the udp message we send to server and parses recieved messages
 class MsgParser(object):
     '''
     A parser for received UDP messages and building UDP messages
@@ -43,7 +43,6 @@ class MsgParser(object):
                 print(f"Error: Mismatched parentheses in sensor string: {str_sensors}")
                 return None
 
-        save_telemetry(sensors)
         return sensors
 
 

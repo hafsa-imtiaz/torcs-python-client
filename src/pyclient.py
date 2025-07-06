@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+'''
+Created on Apr 4, 2012
+
+@author: lanquarden
+'''
 import sys
 import argparse
 import socket
@@ -58,22 +64,21 @@ while not shutdownClient:
         print('Sending init string to server:', buf)
         
         try:
-            sock.sendto(buf.encode(), (arguments.host_ip, arguments.host_port))  # .encode() for Python 3
+            # Encode the message to bytes before sending
+            sock.sendto(buf.encode('utf-8'), (arguments.host_ip, arguments.host_port))
         except socket.error as msg:
             print("Failed to send data...Exiting...")
             sys.exit(-1)
             
         try:
             buf, addr = sock.recvfrom(1000)
+            # Decode the received bytes to string for processing
+            buf = buf.decode('utf-8')
         except socket.error as msg:
             print("didn't get response from server...")
-            continue
-        
-        # Decode received bytes to string for comparison
-        buf_str = buf.decode('utf-8')
-        
-        if '***identified***' in buf_str:  # Compare as string
-            print('Received:', buf_str)
+    
+        if buf.find('***identified***') >= 0:
+            print('Received: ', buf)
             break
 
     currentStep = 0
@@ -83,40 +88,37 @@ while not shutdownClient:
         buf = None
         try:
             buf, addr = sock.recvfrom(1000)
+            buf = buf.decode('utf-8')
         except socket.error as msg:
             print("didn't get response from server...")
-            continue
-        
-        # Decode received bytes to string for further processing
-        buf_str = buf.decode('utf-8')
         
         if verbose:
-            print('Received:', buf_str)
+            print('Received: ', buf)
         
-        if buf_str and '***shutdown***' in buf_str:  # Check if shutdown message is received
+        if buf is not None and buf.find('***shutdown***') >= 0:
             d.onShutDown()
             shutdownClient = True
             print('Client Shutdown')
             break
         
-        if buf_str and '***restart***' in buf_str:  # Check if restart message is received
+        if buf is not None and buf.find('***restart***') >= 0:
             d.onRestart()
             print('Client Restart')
             break
         
         currentStep += 1
         if currentStep != arguments.max_steps:
-            if buf_str:
+            if buf is not None:
                 buf = d.drive(buf)
         else:
             buf = '(meta 1)'
-
+        
         if verbose:
             print('Sending: ', buf)
         
         if buf is not None:
             try:
-                sock.sendto(buf.encode(), (arguments.host_ip, arguments.host_port))  # .encode() for Python 3
+                sock.sendto(buf.encode('utf-8'), (arguments.host_ip, arguments.host_port))
             except socket.error as msg:
                 print("Failed to send data...Exiting...")
                 sys.exit(-1)
@@ -126,4 +128,5 @@ while not shutdownClient:
     if curEpisode == arguments.max_episodes:
         shutdownClient = True
         
+
 sock.close()

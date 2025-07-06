@@ -11,7 +11,7 @@ class CarState(object):
         self.parser = msgParser.MsgParser()
         self.sensors = None
         self.angle = None
-        self.curLapTime = None
+        self.curLapTime = 0
         self.damage = None
         self.distFromStart = None
         self.distRaced = None
@@ -29,6 +29,7 @@ class CarState(object):
         self.trackPos = None
         self.wheelSpinVel = None
         self.z = None
+        self.lapNum = 0
     
     def setFromMsg(self, str_sensors):
         self.sensors = self.parser.parse(str_sensors)
@@ -127,6 +128,8 @@ class CarState(object):
         self.curLapTime = curLapTime
     
     def setCurLapTimeD(self):
+        if  self.getFloatD('curLapTime') < self.curLapTime:
+            self.lapNum += 1
         self.curLapTime = self.getFloatD('curLapTime')
     
     def getCurLapTime(self):
@@ -188,6 +191,9 @@ class CarState(object):
     
     def setLastLapTimeD(self):
         self.lastLapTime = self.getFloatD('lastLapTime')
+    
+    def getLastLapTime(self):
+        return self.lastLapTime
     
     def setOpponents(self, opponents):
         self.opponents = opponents
@@ -278,5 +284,32 @@ class CarState(object):
     
     def getZ(self):
         return self.z
+    
+    def getLapNum(self):
+        return self.lapNum
+    
+    def __str__(self):
+        return (
+            f"Angle: {self.angle}\n"
+            f"CurLapTime: {self.curLapTime}\n"
+            f"Damage: {self.damage}\n"
+            f"DistFromStart: {self.distFromStart}\n"
+            f"DistRaced: {self.distRaced}\n"
+            f"Focus: {self.focus}\n"
+            f"Fuel: {self.fuel}\n"
+            f"Gear: {self.gear}\n"
+            f"LastLapTime: {self.lastLapTime}\n"
+            f"Opponents: {self.opponents}\n"
+            f"RacePos: {self.racePos}\n"
+            f"Rpm: {self.rpm}\n"
+            f"SpeedX: {self.speedX}\n"
+            f"SpeedY: {self.speedY}\n"
+            f"SpeedZ: {self.speedZ}\n"
+            f"Track: {self.track}\n"
+            f"TrackPos: {self.trackPos}\n"
+            f"WheelSpinVel: {self.wheelSpinVel}\n"
+            f"Z: {self.z}"
+        )
+
     
     
