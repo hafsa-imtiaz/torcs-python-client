@@ -79,5 +79,36 @@ This project is part of the **Artificial Intelligence AI-2002 Spring-2025** cour
 
 ## **Original Code Source**
 
-The original Python 2 code for `pyClient` is from: [http://games.ws.dei.polimi.it/competitions/scr/](http://games.ws.dei.polimi.it/competitions/scr/) and has been converted to Python 3 with telemetry updates.
+The original Python 2 code for `pyClient` is from: [http://games.ws.dei.polimi.it/competitions/scr/](http://games.ws.dei.polimi.it/competitions/scr/) and has been converted to Python 3 with telemetry updates in telemetry.py.
 
+---
+
+## New Files and AI Controller Integration  
+
+This project has been extended with an AI-based autonomous driving controller trained using supervised learning. The following new files have been added:
+
+### 1. `CarANN.py`  
+**Purpose:**  
+Loads the trained Artificial Neural Network (ANN) model and `RobustScaler`, and predicts real-time control outputs using live telemetry input.  
+**Role in Project:**  
+Serves as the AI driver, replacing manual or rule-based control logic.
+
+### 2. `model_training.ipynb`  
+**Purpose:**  
+Contains the full training pipeline for the AI controller, including preprocessing, feature engineering, model architecture, training, and evaluation.  
+**Role in Project:**  
+Used to train the model on recorded telemetry data with a hybrid LSTM-Dense architecture.
+
+### 3. `racing_scaler.pkl`  
+**Purpose:**  
+Stores the fitted `RobustScaler` used for normalizing input features during training and inference.  
+**Role in Project:**  
+Ensures consistent feature scaling across both training and real-time prediction.
+
+### 4. `torcs_model.h5` and `torcs_model.tflite`  
+**Purpose:**  
+Serialized versions of the trained neural network.  
+**Role in Project:**  
+Used by `CarANN.py` to make predictions on sensor input.
+
+Note: An expanded telemetry dataset (~350,000 frames) including 72 input features and 5 control outputs has been used. The report contains the complete model and training details.  
